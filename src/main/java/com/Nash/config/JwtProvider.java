@@ -1,5 +1,6 @@
 package com.Nash.config;
 
+import com.Nash.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -19,11 +20,13 @@ public class JwtProvider {
 //    token generate
     public static String generateToken(Authentication auth){
 
+        User user = (User) auth.getPrincipal();
+
         String jwt = Jwts.builder()
                 .setIssuer("Code with Nash")
                 .setIssuedAt( new Date())
                 .setExpiration(new Date(new Date().getTime()+86400000))
-                .claim("email",auth.getName())
+                .claim("email",user.getEmail())
                 .signWith(key)
                 .compact();
 
